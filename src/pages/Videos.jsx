@@ -2,7 +2,8 @@ import { React } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import VideoCard from '../components/VideoCard';
-import axios from 'axios';
+import Youtube, { search } from '../api/youtube';
+import FakeYoutube from '../api/fakeYoutube';
 
 export default function Videos() {
   const { keyword } = useParams();
@@ -12,13 +13,11 @@ export default function Videos() {
     data: videos,
   } = useQuery({
     queryKey: ['videos', keyword],
-    queryFn: async () => {
-      // await 필요없음
-      return axios
-        .get(`/videos/${keyword ? 'search' : 'popular'}.json`)
-        .then((res) => res.data.items);
+    queryFn: () => {
+      // const youtube = new FakeYoutube();
+      const youtube = new Youtube();
+      return youtube.search(keyword);
     },
-    staleTime: 1000 * 60 * 5,
   });
 
   return (
