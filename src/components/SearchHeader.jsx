@@ -13,7 +13,7 @@ export default function SearchHeader() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/videos/${text}`);
+    navigate(`/videos/${text}`); // text = :keyword
   };
 
   // useParams로 불러온 keyword가 변할 때마다 input과 텍스트에 표시되도록 저장

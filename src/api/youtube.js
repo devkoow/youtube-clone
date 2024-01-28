@@ -1,23 +1,19 @@
-import axios from 'axios';
-
-// 실제 youtube API 연결
+// 실제 API와 Mock data 중 원하는 대로 연결
 export default class Youtube {
-  constructor() {
-    // youtube API 통신을 위해 axios create로 http Client 생성
-    this.httpClient = axios.create({
-      baseURL: 'https://www.googleapis.com/youtube/v3',
-      params: { key: process.env.REACT_APP_YOUTUBE_API_KEY },
-    });
+  // 클래스 내부적으로는 axios나 fetch를 사용하는것과 관계없음
+  constructor(apiClient) {
+    this.apiClient = apiClient;
   }
 
+  // Videos의 쿼리 키에 저장된 keyword를 전달받음
   async search(keyword) {
     return keyword ? this.#searchByKeyword(keyword) : this.#mostPopular();
   }
 
   async #searchByKeyword(keyword) {
-    // SearchHeader의 input에서 검색한 keyword를 axios의 get으로 데이터 가져오기
-    return this.httpClient
-      .get('search', {
+    // 클라이언트에서 정의한 search 함수 사용
+    return this.apiClient
+      .search({
         params: {
           part: 'snippet',
           maxResults: 25,
@@ -29,9 +25,10 @@ export default class Youtube {
       .then((items) => items.map((item) => ({ ...item, id: item.id.videoId })));
   }
 
+  // 클라이언트에서 정의한 videos 함수 사용
   async #mostPopular() {
-    return this.httpClient
-      .get('videos', {
+    return this.apiClient
+      .videos({
         params: {
           part: 'snippet',
           maxResults: 25,
