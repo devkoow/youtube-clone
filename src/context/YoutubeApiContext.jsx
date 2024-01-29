@@ -18,6 +18,7 @@ export function YoutubeApiProvider({ children }) {
   );
 }
 
+// Context API를 사용하는 함수를 만듦
 export function useYoutubeApi() {
   return useContext(YoutubeApiContext);
 }
