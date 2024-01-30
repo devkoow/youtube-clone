@@ -14,6 +14,7 @@ export default function Videos() {
   } = useQuery({
     queryKey: ['videos', keyword],
     queryFn: () => youtube.search(keyword), // ContextAPI를 사용
+    staleTime: 1000 * 60 * 1,
   });
 
   return (
