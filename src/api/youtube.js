@@ -17,7 +17,7 @@ export default class Youtube {
       .then((res) => res.data.items[0].snippet.thumbnails.default.url);
   }
 
-  // 쿼리말고 연관동영상의 id로 데이터 받아옴
+  // 쿼리말고 연관 동영상의 id로 데이터 받아옴
   async relatedVideos(id) {
     return this.apiClient
       .search({
@@ -33,7 +33,8 @@ export default class Youtube {
       );
   }
 
-  // 현재 보고있는 영상의 채널에 있는 다른 영상을 대신 불러옴
+  // 유튜브 API 사용시 연관 동영상 대신
+  // 현재 보고있는 영상의 채널에 있는 다른 영상을 불러옴
   async channelVideos(id) {
     return this.apiClient
       .search({
@@ -49,11 +50,8 @@ export default class Youtube {
       );
   }
 
-  // 실시간 API 사용시 연관동영상 대신 현재 시청 영상의 채널에 있는
-  // 다른 영상을 불러오기 위한 api 만들기
-
+  // 클라이언트에서 정의한 search 함수 사용
   async #searchByKeyword(keyword) {
-    // 클라이언트에서 정의한 search 함수 사용
     return this.apiClient
       .search({
         params: {

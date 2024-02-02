@@ -11,7 +11,7 @@ export default function RelatedVideos({ id }) {
     data: videos,
   } = useQuery({
     queryKey: ['related', id],
-    queryFn: () => youtube.channelVideos(id),
+    queryFn: () => youtube.channelVideos(id), // fake 사용 때는 yotube.relatedVideos로 변경
     staleTime: 1000 * 60 * 5,
   });
   return (
